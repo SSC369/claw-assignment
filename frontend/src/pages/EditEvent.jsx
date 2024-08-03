@@ -15,7 +15,7 @@ const EditEvent = () => {
     location: "",
     description: ""
   });
-  console.log(eventData)
+  
   const [loading, setLoading] = useState(false)
   const {eventId} = useParams()
   const eToken = sessionStorage.getItem("eToken");
