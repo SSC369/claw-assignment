@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Session = require("../models/sessionModel")
 
 module.exports.register = async (req, res, next) => {
   try {
@@ -27,6 +28,14 @@ module.exports.register = async (req, res, next) => {
     });
 
     const user = await User.findOne({ email });
+    const userId = user._id;
+    const ipAddress = req.ip;
+    const newSession = new Session({
+      userId,
+      ipAddress,
+    });
+
+    await newSession.save();
     const secretKey = "SSC";
     const payload = {
       username,
@@ -56,7 +65,14 @@ module.exports.login = async (req, res, next) => {
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Incorrect Password :(" });
+    const userId = user._id;
+    const ipAddress = req.ip;
+    const newSession = new Session({
+      userId,
+      ipAddress,
+    });
 
+    await newSession.save();
     const secretKey = "SSC";
     const payload = {
       username: user.username,
@@ -84,3 +100,24 @@ module.exports.userProfile = async (req, res) => {
     return res.status(500).json({ message: "Server issue :(" });
   }
 };
+
+module.exports.logout = async(req, res) => {
+  try {
+    const result = await Session.findByIdAndUpdate(
+      req.body.sessionId, 
+      { $set: { logoutTime: Date.now() } },
+      { new: true } // Option to return the updated document
+    );
+  
+    if (!result) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    res.status(200).json({ message: 'Session updated successfully', result });
+    
+  } catch (error) {
+
+    console.log(error.message);
+    return res.status(500).json({ message: "Server issue :(" });
+  }
+}

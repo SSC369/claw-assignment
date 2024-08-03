@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const sessionSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   loginTime: { type: Date, default: Date.now },
   logoutTime: { type: Date },
   ipAddress: { type: String },
