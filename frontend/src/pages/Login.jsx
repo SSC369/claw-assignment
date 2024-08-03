@@ -1,4 +1,4 @@
-import { FaGoogle, FaApple } from 'react-icons/fa';
+
 import { IoMdMail } from 'react-icons/io';
 import { RiLock2Line } from 'react-icons/ri';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import host from '../host';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import Cookie from 'js-cookie'
+
 
 const Login = () => {
   const navigate = useNavigate()
@@ -97,7 +97,7 @@ const Login = () => {
        
         <div className="flex items-center border-2 border-gray-300 rounded-lg h-12 pl-2 transition focus-within:border-blue-500">
           <RiLock2Line className="mr-2" size={20} />
-          <input  onChange={handleChange} name='password' value={formData.password}  type={showPassword ? "password" : "text"} className="ml-2 border-none w-full h-full focus:outline-none" placeholder="Enter your Password" />
+          <input  onChange={handleChange} name='password' value={formData.password}  type={showPassword  ? "text" : "password"} className="ml-2 border-none w-full h-full focus:outline-none" placeholder="Enter your Password" />
           {
             showPassword ? <AiOutlineEyeInvisible onClick={() => setShowPassword(!showPassword)} className="mr-2 cursor-pointer" size={20} /> :
           <AiOutlineEye onClick={() => setShowPassword(!showPassword)} className="mr-2 cursor-pointer" size={20} />} 
