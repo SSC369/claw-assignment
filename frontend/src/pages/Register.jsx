@@ -78,7 +78,7 @@ const Register = () => {
           
           });
           setTimeout(() => {
-            navigate("/events");
+            navigate("/");
           }, 1000);
         } else {
           toast.error(data.msg, {duration:1000});
