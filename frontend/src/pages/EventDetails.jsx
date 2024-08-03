@@ -53,9 +53,12 @@ const EventDetails = () => {
 
     //details
     <div className='w-[80%] flex flex-col items-center'>
-        <div className='relative flex flex-col gap-3 w-[80%] mt-5'>
+        <div className='flex flex-col gap-3 w-[80%] mt-5'>
 
+            <div className="flex items-center justify-between w-[100%]">
               <h3 className="text-3xl md:text-5xl font-semibold text-gray-800 dark:text-gray-100">{eventDetails.name}</h3>
+              <TbEditCircle onClick={() => navigate("/edit-event/" + eventId)} className=' text-black dark:text-white text-2xl cursor-pointer outline-none' />
+              </div>
                 
               <p className=" text-sm text-gray-600 dark:text-gray-300 mt-3 md:text-lg">{eventDetails.description}</p>
 
@@ -67,17 +70,8 @@ const EventDetails = () => {
               <div className="flex items-center gap-2">
               <p className='text-sm font-semibold text-gray-600 dark:text-gray-300'>Location:</p>
               <p className="text-sm text-gray-600 dark:text-gray-300">{eventDetails.location}</p>
-
-              <div className='absolute top-6 right-10'>
-
-
-    <TbEditCircle onClick={() => navigate("/edit-event/" + eventId)} className=' text-black dark:text-white text-2xl cursor-pointer outline-none' />
-    </div>
+   
               </div>
-              
-              
-
-        
         </div>
 
         <div className='w-[80%]'>
