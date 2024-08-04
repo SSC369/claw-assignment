@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import host from '../host';
-import Cookie from 'js-cookie';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import host from "../host";
+import Cookie from "js-cookie";
+import toast from "react-hot-toast";
 
 const AddEvent = () => {
   const [eventData, setEventData] = useState({
     name: "",
     date: "",
     location: "",
-    description: ""
+    description: "",
   });
   const eToken = sessionStorage.getItem("eToken");
 
@@ -38,15 +38,22 @@ const AddEvent = () => {
       if (handleValidation()) {
         const url = `${host}/events`;
         const { name, date, description, location } = eventData;
-        const formattedLocation = location[0].toUpperCase() + location.slice(1)
-       
-        const res = await axios.post(url, {
-          name, date, description, location:formattedLocation
-        }, {
-          headers: {
-            "auth-token": eToken
+        const formattedLocation = location[0].toUpperCase() + location.slice(1);
+
+        const res = await axios.post(
+          url,
+          {
+            name,
+            date,
+            description,
+            location: formattedLocation,
+          },
+          {
+            headers: {
+              "auth-token": eToken,
+            },
           }
-        });
+        );
 
         if (res.status === 201) {
           toast.success(res.data.message, { duration: 1000 });
@@ -54,7 +61,7 @@ const AddEvent = () => {
             name: "",
             date: "",
             location: "",
-            description: ""
+            description: "",
           });
         } else {
           toast.error(res.data.message, { duration: 1000 });
@@ -76,9 +83,16 @@ const AddEvent = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-900">
         <div className="min-w-[300px] max-w-md p-8 space-y-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg w-[80%]">
           <form className="space-y-6" onSubmit={handleEventCreation}>
-            <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-200">Add Event</h2>
+            <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-gray-200">
+              Add Event
+            </h2>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Event Name</label>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Event Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -90,7 +104,12 @@ const AddEvent = () => {
               />
             </div>
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Date
+              </label>
               <input
                 type="date"
                 id="date"
@@ -102,7 +121,12 @@ const AddEvent = () => {
               />
             </div>
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Location
+              </label>
               <input
                 type="text"
                 id="location"
@@ -114,7 +138,12 @@ const AddEvent = () => {
               />
             </div>
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Description
+              </label>
               <textarea
                 id="description"
                 name="description"

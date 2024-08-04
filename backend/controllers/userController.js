@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Session = require("../models/sessionModel")
+const Session = require("../models/sessionModel");
 
 module.exports.register = async (req, res, next) => {
   try {
@@ -9,13 +9,13 @@ module.exports.register = async (req, res, next) => {
     //check that is there a same username exits
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck) {
-      return res.status(400).json({ message: "Username is already used!"});
+      return res.status(400).json({ message: "Username is already used!" });
     }
 
     //check that is there a same email exists
     const emailCheck = await User.findOne({ email });
     if (emailCheck) {
-      return res.status(400).json({ message: "Email is already registered!"});
+      return res.status(400).json({ message: "Email is already registered!" });
     }
 
     //create hashed pass
@@ -44,7 +44,7 @@ module.exports.register = async (req, res, next) => {
     };
     const jwtToken = await jwt.sign(payload, secretKey);
 
-    return res.status(201).json({  jwtToken });
+    return res.status(201).json({ jwtToken });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -53,16 +53,11 @@ module.exports.register = async (req, res, next) => {
 module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
     //authentication for user
     const user = await User.findOne({ email });
     if (!user)
-      return res
-        .status(401)
-        .json({ message: "Email is not registered!" });
-
+      return res.status(401).json({ message: "Email is not registered!" });
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid)
       return res.status(400).json({ message: "Incorrect Password :(" });
     const userId = user._id;
@@ -71,7 +66,6 @@ module.exports.login = async (req, res, next) => {
       userId,
       ipAddress,
     });
-
     await newSession.save();
     const secretKey = "SSC";
     const payload = {
@@ -80,7 +74,6 @@ module.exports.login = async (req, res, next) => {
       userId: user._id,
     };
     const jwtToken = await jwt.sign(payload, secretKey);
-
     return res.status(200).json({ jwtToken });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -101,23 +94,21 @@ module.exports.userProfile = async (req, res) => {
   }
 };
 
-module.exports.logout = async(req, res) => {
+module.exports.logout = async (req, res) => {
   try {
     const result = await Session.findByIdAndUpdate(
-      req.body.sessionId, 
+      req.body.sessionId,
       { $set: { logoutTime: Date.now() } },
       { new: true } // Option to return the updated document
     );
-  
+
     if (!result) {
-      return res.status(404).json({ message: 'Session not found' });
+      return res.status(404).json({ message: "Session not found" });
     }
 
-    res.status(200).json({ message: 'Session updated successfully', result });
-    
+    res.status(200).json({ message: "Session updated successfully", result });
   } catch (error) {
-
     console.log(error.message);
     return res.status(500).json({ message: "Server issue :(" });
   }
-}
+};
